@@ -1,0 +1,6 @@
+name: cauris
+version: 0.0.1
+description: BlockChain Sample
+
+dependencies:
+  crypto: ^2.1.2
