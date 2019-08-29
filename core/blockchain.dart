@@ -1,18 +1,15 @@
-
 import 'dart:convert';
-
 import 'package:Cauris/utils.dart';
-
 import 'block.dart';
 
-///The first Step of my learnning is to build a fully working 
+///The first Step of my Blockchain Mastering is to build a fully working 
 ///decentralized blockchain network with Proof Of Work (PoW)
 ///Next, I will learn other Consensus algorithm in order to reduce 
 ///time and energy consumption of my future crypto network
 
-
 abstract class BlockChainProps {
 
+  void addTransaction(Transaction transaction);
   ///Generates the Genesis Block 
   Block generateGenesisBlock();
 
@@ -25,13 +22,16 @@ abstract class BlockChainProps {
   ///Decentralization. Adds a peer to the network.
   addPeer(String host);
 
+  void mine({Block blockToMine=null,int difficulty});
+
   bool isBlockValid(Block b);
 }
 
 class BlockChain implements BlockChainProps{
+
   List<Block> chain ;
   Set<String> peers;
-  List<String> pendingTransactions;
+  List<Transaction> pendingTransactions;
 
   BlockChain(){
     peers= Set();
@@ -43,8 +43,13 @@ class BlockChain implements BlockChainProps{
   Block get last => chain.last;
 
   @override
+  void addTransaction(Transaction transaction) {
+    this.pendingTransactions.add(transaction);
+  }
+
+  @override
   Block generateGenesisBlock() {
-    return Block(index: 0,timestamp:DateTime.now().millisecondsSinceEpoch,data: "{}",previousHash: "0");
+    return Block(index: 0,timestamp:DateTime.now().millisecondsSinceEpoch,data:[],previousHash: "0");
   }
 
   @override
@@ -86,6 +91,7 @@ class BlockChain implements BlockChainProps{
       ///Free all pending transactions
       this.pendingTransactions=[];
       print("Created block ${b.index}");
+      print(this.toJson());
     }
   }
 
@@ -117,13 +123,12 @@ class BlockChain implements BlockChainProps{
     }
   }
 
-
   @override
   addPeer(String host) {
     peers.add(host);
   }
 
   String toJson(){
-    return jsonEncode(this.chain);
+    return jsonEncode(this.chain.map((block)=>block.toJson()).toList());
   }
 }
