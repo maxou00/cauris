@@ -1,6 +1,8 @@
-name: cauris
+name: Cauris
 version: 0.0.1
-description: BlockChain Sample
+description: An implementation of the blockchain technology
+author: Maximilien Comlan <maximiliencomlan05@gmail.com>
 
 dependencies:
   crypto: ^2.1.2
+  uuid: ^2.0.2

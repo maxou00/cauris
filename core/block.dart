@@ -7,32 +7,40 @@ abstract class BlockProps{
   String generateHash(); 
 }
 
-class Block<T extends String > implements BlockProps {
+class Block implements BlockProps {
   int index;
   int timestamp;
-  T data;
+  List<String> data;
   String hash;
   String previousHash;
+  String nonce;
 
-  Block({this.index,this.timestamp,this.data,this.previousHash}){
+  Block({this.index,this.timestamp,this.data,this.previousHash,this.nonce}){
     this.hash = generateHash();
   }
 
   @override
   String generateHash() {
-    String str = '$index$previousHash$timestamp$data';
-    var encrypted = sha256.convert(utf8.encode(this.data));
+    var toHash={
+      'index':this.index,
+      'nonce':this.nonce,
+      'previousHash':this.previousHash,
+      'timestamp':this.timestamp,
+      'transactions':this.data
+    };
+    var encrypted = sha256.convert(utf8.encode(jsonEncode(toHash)));
     return encrypted.toString();
   }
 
 
   Map<String,dynamic> toMap(){
     return {
-      'index':index,
-      'timestamp':timestamp,
-      'previousHash':previousHash,
       'hash':hash,
-      'data':data,
+      'index':index,
+      'nonce':this.nonce,
+      'previousHash':previousHash,
+      'timestamp':timestamp,
+      'transactions':data,
     };
   }
 
