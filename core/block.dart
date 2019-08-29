@@ -66,7 +66,7 @@ class Block implements BlockProps {
       'nonce':this.nonce,
       'previousHash':previousHash,
       'timestamp':timestamp,
-      'transactions':data.map((trans)=>trans.toJson()).toList(),
+      'transactions':data.map((trans)=>trans.toMap()).toList(),
     };
   }
 

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import '../core/block.dart';
 import '../core/blockchain.dart';
+import 'router.dart';
 
 abstract class CaurisServerProps{
 
@@ -39,18 +40,23 @@ class CaurisServer  implements CaurisServerProps {
 
     switch(segments[0]){
       case "new_block":{
+        if(request.method == 'GET')
         handleNewBlock(request);
         break;
       }
       case "last_block":{
+        if(request.method == 'GET')
         getLastBlock(request);
         break;
       }
       case "get_peers":{
+        if(request.method == 'GET')
         getPeers(request);
         break;
       }
       case "submit_transaction":{
+        if(request.method == 'POST')
+        print(true);
         submitTransaction(request);
         break;
       }

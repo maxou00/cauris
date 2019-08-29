@@ -95,7 +95,6 @@ class BlockChain implements BlockChainProps{
     }
   }
 
-
   ///Checks if a hash starts with a difficulty number of 0s
   ///@see `Proof Of Work`.
   static bool isPowSufficient(String hashOfBlock,int difficulty){
